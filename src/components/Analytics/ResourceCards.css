@@ -1,0 +1,26 @@
+/* src/components/ResourceCards.css */
+.ResourceCards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.ResourceCard {
+    background-color: #ffff; /* Light gray background for cards */
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    transition: transform 0.2s;
+    box-shadow: var(--boxShadow);
+    border: 1px solid #ddd; /* Light border for better separation */
+}
+
+.ResourceCard:hover {
+    transform: scale(1.05);
+}
