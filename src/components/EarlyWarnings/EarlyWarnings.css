@@ -1,0 +1,57 @@
+.early-warnings-container {
+    height: 300px; /* Adjust height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px; /* Added padding for spacing */
+  }
+  
+  .early-warning-item {
+    background: white;
+    border-radius: 0.7rem;
+    padding: 1rem;
+    margin-bottom: 10px; /* Added margin bottom for spacing between items */
+  }
+  
+  .profile-img {
+    width: 4rem;
+    height: 4rem;
+    object-fit: cover; /* Ensure the image covers the entire square */
+    border-radius: 0%; /* Rounded profile image */
+  }
+  
+  .early-warning-item-content {
+    display: flex;
+    justify-content: space-between; /* Distribute content evenly */
+    align-items: center; /* Ensure proper alignment of elements */
+    margin-bottom: 0.5rem; /* Added margin bottom for spacing */
+  }
+  
+  .headline {
+    font-weight: bold;
+    font-size: 1.1rem; /* Increased font size for headline */
+  }
+  
+  .content {
+    margin-top: 0.5rem; /* Added margin top for spacing */
+  }
+  
+  .time {
+    font-size: 0.9rem; /* Reduced font size for time */
+    color: #6c757d; /* Adjusted color for time text */
+  }
+  
+  .approve-button {
+    background-color: #4caf50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.9rem; /* Adjusted font size for button */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .approve-button:hover {
+    background-color: #45a049; /* Darker shade of green on hover */
+  }

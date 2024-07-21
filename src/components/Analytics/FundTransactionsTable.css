@@ -1,0 +1,23 @@
+/* src/components/Analytics/FundTransactionsTable.css */
+.TableContainer {
+    width: 90%;
+    height: 100%; /* Use full height of the parent container */
+    padding: 1rem;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: var(--white);
+    box-shadow: var(--boxShadow);
+    display: flex;
+    flex-direction: column;
+}
+
+.TableHeading {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--black);
+}
+
+.TableBodyWrapper {
+    flex: 1; /* Take up the remaining space */
+    overflow-y: auto; /* Enable vertical scrolling */
+}

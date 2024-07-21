@@ -1,0 +1,15 @@
+/* src/components/Analytics/AnalyticsTable.css */
+.TableContainer {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: var(--white);
+    box-shadow: var(--boxShadow);
+}
+
+.TableHeading {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--black);
+}

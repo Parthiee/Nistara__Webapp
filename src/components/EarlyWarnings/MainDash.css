@@ -1,0 +1,48 @@
+.early-warnings-main-dash {
+  height: 90vh; /* Use the full viewport height */
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.early-warnings-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 10px; /* Add some padding to the right to avoid content being hidden by the scrollbar */
+}
+
+.early-warning-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.early-warning-item:hover {
+  background-color: #f0f0f0;
+}
+
+.warning-content {
+  display: flex;
+  align-items: center; /* Align items to center vertically */
+}
+
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Make the image circular */
+  border: 2px solid #ddd; /* Add a border to the image */
+  margin-right: 10px;
+}
+
+.warning-headline {
+  margin: 0;
+}
+
+.warning-text {
+  margin-top: 10px;
+}
