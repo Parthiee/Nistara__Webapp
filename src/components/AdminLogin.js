@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import loginImage from '../images/login-image.png';
 import { TableComponent } from './AG-Tabe/Table';
-import env from "../database/token.json"
-
-import dbClient  from "../database/db-connectivity";
 
 import '../App.css'; 
 import './AdminLogin.css';
+
 const AdminLogin = () => {
-
-
   const navigate = useNavigate(); // Hook to navigate programmatically
 
   const [form, setForm] = useState({
@@ -18,11 +14,7 @@ const AdminLogin = () => {
     password: '',
   });
 
-console.log(env)
 
-const db = new dbClient()
-db.getPosts().then(e=>console.log(e))
-const TableContentAsListOfJSON =  [{name:"PARTHIBAN"},{name:"SRIHARI"}]
 
 
   const handleChange = (e) => {
@@ -48,8 +40,7 @@ const TableContentAsListOfJSON =  [{name:"PARTHIBAN"},{name:"SRIHARI"}]
         <div className="welcome-container">
           <h2>Welcome back to Nistara</h2>
           <p className="tagline">Empowering Communities, Saving Lives</p>
-          <TableComponent TableContentAsListOfJSON={TableContentAsListOfJSON}/>
-      
+         
         </div>
         <div className="form-container">
           <form onSubmit={handleSubmit} className="login-form">
