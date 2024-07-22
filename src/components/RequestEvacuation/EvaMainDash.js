@@ -4,7 +4,7 @@ import "../../App.css";
 import dbClient from "../../database/db-connectivity";
 import { TableComponent } from '../AG-Tabe/Table';
 
-const OrdersMainDash = ({ orders }) => {
+const EvacuateMainDash = ({ orders }) => {
 
   const [ordersData, setOrdersData] = useState(orders);
   const [data, setData] = useState();
@@ -56,4 +56,4 @@ const OrdersMainDash = ({ orders }) => {
   );
 };
 
-export default OrdersMainDash;
+export default EvacuateMainDash;

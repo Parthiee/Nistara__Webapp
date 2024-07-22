@@ -6,6 +6,7 @@ import MainDash from "./components/MainDash/MainDash";
 import RightSide from "./components/RightSide/RightSide";
 import Sidebar from "./components/Sidebar";
 import OrdersMainDash from "./components/Orders/OrdersMainDash";
+import EvacuateMainDash from './components/RequestEvacuation/EvaMainDash';
 import OrdersRightSide from "./components/Orders/OrdersRightSide";
 import EarlyWarningsMainDash from "./components/EarlyWarnings/MainDash";
 import GraphSection from './components/EarlyWarnings/GraphSection';
@@ -187,6 +188,12 @@ function App() {
               </>
             )}
             {selectedMenuItem === 2 && (
+              <>
+                <EvacuateMainDash orders={orders} />
+                <OrdersRightSide orders={orders} />
+              </>
+            )}
+            {selectedMenuItem === 3 && (
               <>
                 <div style={{ display: 'flex', width: '100%' }}>
                   <EarlyWarningsMainDash 

@@ -7,7 +7,7 @@ secure-connect-nistaradb.zip
 /node_modules
 /.pnp
 .pnp.js
-
+.venv
 .env
 env.js
 secure-connect-nistaradb
