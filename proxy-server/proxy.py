@@ -1,6 +1,12 @@
 from fastapi import FastAPI, HTTPException, Request
 import httpx
 import json
+import hashlib
+from datetime import datetime 
+
+f = open("../src/Data/data.json")
+donorData = json.load(f)
+
 
 app = FastAPI()
 
@@ -231,6 +237,65 @@ async def get_information():
         except httpx.HTTPStatusError as e:
             raise HTTPException(status_code=e.response.status_code, detail="Failed fetching all information posts")
 
+@app.post("/approveRequest")
+async def approverequest(request:Request):
+    body = await request.body()
+    requestData= json.loads(body)
+
+    item = requestData['item']
+    requestId = requestData['id']
+    umbrellatype = requestData['umbrellatype']
+
+    if requestData['quantity']:
+        quantity = requestData['quantity']
+    else:
+        quantity = "null"
+
+    matcherid = int(donorData["matcherid"])
+    donorGeoloc = tuple(donorData["geolocation"])
+    print(donorGeoloc)
+    donorName=donorData["name"]
+    donorId=donorData["id"]
+    HEADERS = {
+    'Content-Type': 'text/plain',
+    'X-Cassandra-Token': env['ASTRA_DB_APPLICATION_TOKEN'],
+    'Access-Control-Allow-Origin': '*'
+    }
+    url  = f"{ASTRA_BASE_URL}/api/rest/v2/cql?keyspace={env['ASTRA_DB_KEYSPACE']}"
+
+
+    query1 = f"UPDATE MAIN.REQUESTS SET matcherid = {matcherid}, ismatched=True where id='{requestId}';"
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(url, data=query1, headers=HEADERS)
+            print(response.json())
+            response.raise_for_status()
+           
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail="Failed updating request table")
+        
+
+        donationId = hashlib.sha256(f"{datetime.utcnow().isoformat()}{item}{donorData['id']}".encode()).hexdigest()
+
+    
+        query2 = f"INSERT INTO MAIN.DONATIONS (id,userid,umbrellatype,item,quantity,geolocation,timestamp,username,matcherid,ismatched) VALUES ('{donationId}','{donorId}','{umbrellatype}','{item}',{quantity},{donorGeoloc},{int(datetime.now().timestamp()*1000)},'{donorName}',{matcherid},True)"
+    
+        try:
+            response = await client.post(url, data=query2, headers=HEADERS)
+            print(response.json())
+            response.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail="Failed updating donations table")
+        
+        query3 = f"INSERT INTO MAIN.MATCHES (requestID , donationID ,matcherID ,matchtime ,requesterAck ,donorAck ) VALUES ('{requestId}','{donationId}',{matcherid},{int(datetime.now().timestamp()*1000)},False,False)"
+    
+        try:
+            response = await client.post(url, data=query3, headers=HEADERS)
+            print(response.json())
+            response.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail="Failed updating matches table")
+    
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
