@@ -49,12 +49,22 @@ async def get_posts():
             raise HTTPException(status_code=e.response.status_code, detail="Failed fetching all posts")
 
 @app.get("/requests")
-async def get_requests():
+async def requests():
+    query = "SELECT * from main.requests WHERE postclass = 'REQUEST_ITEM' ALLOW FILTERING;"
+    url = f"{ASTRA_BASE_URL}/api/rest/v2/cql?keyspace={env['ASTRA_DB_KEYSPACE']}"
+
+    HEADERS = {
+    'Content-Type': 'text/plain',
+    'X-Cassandra-Token': env['ASTRA_DB_APPLICATION_TOKEN'],
+    'Access-Control-Allow-Origin': '*'
+}
+    
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.get(f"{BASE_URL}/requests/rows", headers=HEADERS)
+            response = await client.post(url, data=query, headers=HEADERS)
             response.raise_for_status()
-            data = response.json()['data']
+            data = response.json().get('data', [])
+            
             requests = [
                 {
                     "id": request["id"],
@@ -75,23 +85,30 @@ async def get_requests():
                 for request in data
             ]
             return {"message": "Request Posts Fetch Successful", "result": requests}
+        
         except httpx.HTTPStatusError as e:
             raise HTTPException(status_code=e.response.status_code, detail="Failed fetching all request posts")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.get("/evacuationrequests")
 async def evacuationrequests():
+    query = "SELECT * from main.requests WHERE postclass = 'REQUEST_EVACUATION' ALLOW FILTERING;"
+    url = f"{ASTRA_BASE_URL}/api/rest/v2/cql?keyspace={env['ASTRA_DB_KEYSPACE']}"
+
+    HEADERS = {
+    'Content-Type': 'text/plain',
+    'X-Cassandra-Token': env['ASTRA_DB_APPLICATION_TOKEN'],
+    'Access-Control-Allow-Origin': '*'
+}
+    
     async with httpx.AsyncClient() as client:
         try:
-            params = {
-    'where': {
-        "postclass": {"$eq": "REQUEST_ITEM"}
-    }
-}
-
-    
-            response = await client.get(f"{BASE_URL}/requests", headers=HEADERS,params=params)
+            response = await client.post(url, data=query, headers=HEADERS)
             response.raise_for_status()
-            data = response.json()['data']
+            data = response.json().get('data', [])
+            
             requests = [
                 {
                     "id": request["id"],
@@ -112,8 +129,56 @@ async def evacuationrequests():
                 for request in data
             ]
             return {"message": "Request Posts Fetch Successful", "result": requests}
+        
         except httpx.HTTPStatusError as e:
             raise HTTPException(status_code=e.response.status_code, detail="Failed fetching all request posts")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/searchrequests")
+async def searchrequests():
+    query = "SELECT * from main.requests WHERE postclass = 'REQUEST_SEARCH' ALLOW FILTERING;"
+    url = f"{ASTRA_BASE_URL}/api/rest/v2/cql?keyspace={env['ASTRA_DB_KEYSPACE']}"
+
+    HEADERS = {
+    'Content-Type': 'text/plain',
+    'X-Cassandra-Token': env['ASTRA_DB_APPLICATION_TOKEN'],
+    'Access-Control-Allow-Origin': '*'
+}
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(url, data=query, headers=HEADERS)
+            response.raise_for_status()
+            data = response.json().get('data', [])
+            
+            requests = [
+                {
+                    "id": request["id"],
+                    "umbrellatype": request["umbrellatype"],
+                    "item": request["item"],
+                    "quantity": request["quantity"],
+                    "postid": request["postid"],
+                    "geolocation": request["geolocation"],
+                    "translatedtextcontent": request["translatedtextcontent"],
+                    "timestamp": request["timestamp"],
+                    "postclass": request["postclass"],
+                    "userid": request["userid"],
+                    "username": request["username"],
+                    "profilephoto": request["profilephoto"],
+                    "matcherid": request["matcherid"],
+                    "ismatched": request["ismatched"],
+                }
+                for request in data
+            ]
+            return {"message": "Request Posts Fetch Successful", "result": requests}
+        
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail="Failed fetching all request posts")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.get("/donations")
 async def get_donations():

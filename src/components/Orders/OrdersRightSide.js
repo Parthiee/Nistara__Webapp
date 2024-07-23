@@ -7,8 +7,8 @@ const OrdersRightSide = ({ orders }) => {
 
   return (
     <div>
-      <h2>Pending Orders</h2>
-      <BasicTable rows={pendingOrders} />
+  
+      {/* <BasicTable rows={pendingOrders} /> */}
     </div>
   );
 };

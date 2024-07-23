@@ -3,6 +3,7 @@ import BasicTable from "../Table/BasicTable";
 import "../../App.css";
 import dbClient from "../../database/db-connectivity";
 import { TableComponent } from '../AG-Tabe/Table';
+import MapComponent from "../Maps/MapComponent";
 
 const OrdersMainDash = ({ orders }) => {
 
@@ -10,24 +11,24 @@ const OrdersMainDash = ({ orders }) => {
   const [data, setData] = useState();
 
   // Function to handle status change
-  const handleStatusChange = (trackingId) => {
-    const updatedOrders = ordersData.map((order) => {
-      if (order.trackingId === trackingId) {
-        return { ...order, status: "Approved" };
-      }
-      return order;
-    });
+  // const handleStatusChange = (trackingId) => {
+  //   const updatedOrders = ordersData.map((order) => {
+  //     if (order.trackingId === trackingId) {
+  //       return { ...order, status: "Approved" };
+  //     }
+  //     return order;
+  //   });
 
-    setOrdersData(updatedOrders);
-  };
+  //   setOrdersData(updatedOrders);
+  // };
 
   // Filter orders based on status: Not Approved, Pending, Delivered
-  const filteredOrders = ordersData.filter(
-    (order) => order.status === "Request"
-  );
+  // const filteredOrders = ordersData.filter(
+  //   (order) => order.status === "Request"
+  // );
 
   // Filter orders where status is "Approved"
-  const approvedOrders = ordersData.filter((order) => order.status === "Approved");
+  // const approvedOrders = ordersData.filter((order) => order.status === "Approved");
   const db = new dbClient();
 
   useEffect(() => {
@@ -49,9 +50,9 @@ const OrdersMainDash = ({ orders }) => {
     <div>
       <h2>Resource Requests</h2>
       {data ? <TableComponent TableContentAsListOfJSON={data} /> : <p>Loading data...</p>}
+    
 
-      <h2>Approved Requests</h2>
-      <BasicTable rows={approvedOrders} />
+
     </div>
   );
 };

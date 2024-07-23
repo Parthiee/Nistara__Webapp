@@ -42,20 +42,20 @@ export default class dbClient {
       const  data  =  response.data.result;
 
       const requests = data.map((request) => ({
-        id: request.id,
-        umbrellatype: request.umbrellatype,
-        item: request.item,
-        quantity: request.quantity,
-        postid: request.postid,
-        geolocation: request.geolocation,
+        RequestID: request.id,
+        ITEM_TYPE: request.umbrellatype,
+        Item: request.item,
+        Quantity: request.quantity,
+        // postid: request.postid,
+        Geolocation: request.geolocation,
         translatedtextcontent: request.translatedtextcontent,
-        timestamp: request.timestamp,
+        // timestamp: request.timestamp,
         postclass: request.postclass,
         userid: request.userid,
-        username: request.username,
-        profilephoto: request.profilephoto,
-        matcherid: request.matcherid,
-        ismatched: request.ismatched,
+        // username: request.username,
+        // profilephoto: request.profilephoto,
+        // matcherid: request.matcherid,
+        // ismatched: request.ismatched,
       }));
       return { message: 'Request Posts Fetch Successful', result: requests };
     } catch (e) {
@@ -67,29 +67,58 @@ export default class dbClient {
 
   async getRequestEvacuationPosts() {
     try {
-      const response = await axios.get('http://localhost:8000/requests');
+      const response = await axios.get('http://localhost:8000/evacuationrequests');
       const  data  =  response.data.result;
 
       const requests = data.map((request) => ({
         id: request.id,
-        umbrellatype: request.umbrellatype,
-        item: request.item,
-        quantity: request.quantity,
+        // umbrellatype: request.umbrellatype,
+        // item: request.item,
+        // quantity: request.quantity,
         postid: request.postid,
         geolocation: request.geolocation,
         translatedtextcontent: request.translatedtextcontent,
         timestamp: request.timestamp,
-        postclass: request.postclass,
+        // postclass: request.postclass,
         userid: request.userid,
         username: request.username,
-        profilephoto: request.profilephoto,
-        matcherid: request.matcherid,
-        ismatched: request.ismatched,
+        // profilephoto: request.profilephoto,
+        // matcherid: request.matcherid,
+        // ismatched: request.ismatched,
       }));
-      return { message: 'Request Posts Fetch Successful', result: requests };
+      return { message: 'Request Evacuate Posts Fetch Successful', result: requests };
     } catch (e) {
-      console.error('Failed fetching all request posts:', e);
-      return { message: 'Failed fetching all request posts', result: null };
+      console.error('Failed fetching all request evacuate posts:', e);
+      return { message: 'Failed fetching all request evacuate posts', result: null };
+    }
+  }
+
+
+  async getRequestSearchPosts() {
+    try {
+      const response = await axios.get('http://localhost:8000/searchrequests');
+      const  data  =  response.data.result;
+
+      const requests = data.map((request) => ({
+        id: request.id,
+        // umbrellatype: request.umbrellatype,
+        // item: request.item,
+        // quantity: request.quantity,
+        postid: request.postid,
+        geolocation: request.geolocation,
+        translatedtextcontent: request.translatedtextcontent,
+        timestamp: request.timestamp,
+        // postclass: request.postclass,
+        userid: request.userid,
+        username: request.username,
+        // profilephoto: request.profilephoto,
+        // matcherid: request.matcherid,
+        // ismatched: request.ismatched,
+      }));
+      return { message: 'Request Search Posts Fetch Successful', result: requests };
+    } catch (e) {
+      console.error('Failed fetching all request search posts:', e);
+      return { message: 'Failed fetching all request search posts', result: null };
     }
   }
 //   async getDonationPosts() {

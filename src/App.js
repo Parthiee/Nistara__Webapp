@@ -17,6 +17,7 @@ import BasicTable from './components/Analytics/AnalyticsTable';
 import FundTransactionsTable from './components/Analytics/FundTransactionsTable';
 import MapComponent from './components/Maps/MapComponent'; // Import the new MapComponent
 import { CurrentStock,resourcesData } from './Data/Data';
+import SearchMainDash from './components/RequestEvacuation/SearchMainDash';
 const earlyWarningData = [
   { 
     id: 1, 
@@ -184,16 +185,22 @@ function App() {
             {selectedMenuItem === 1 && (
               <>
                 <OrdersMainDash orders={orders} />
-                <OrdersRightSide orders={orders} />
+                {/* <OrdersRightSide orders={orders} /> */}
               </>
             )}
             {selectedMenuItem === 2 && (
               <>
                 <EvacuateMainDash orders={orders} />
-                <OrdersRightSide orders={orders} />
+                {/* <OrdersRightSide orders={orders} /> */}
               </>
             )}
-            {selectedMenuItem === 3 && (
+                  {selectedMenuItem === 3 && (
+              <>
+               <SearchMainDash orders={orders} />
+                {/* <OrdersRightSide orders={orders} /> */}
+              </>
+            )}
+            {selectedMenuItem === 4 && (
               <>
                 <div style={{ display: 'flex', width: '100%' }}>
                   <EarlyWarningsMainDash 
@@ -208,10 +215,10 @@ function App() {
                     )}
                   </div>
                 </div>
-                <MapComponent />
+          
               </>
             )}
-            {selectedMenuItem === 3 && (
+            {selectedMenuItem === 5 && (
               <>
                 <div style={{ display: 'flex', width: '100%' }}>
                   <div style={{ width: '50%' }}>
@@ -227,12 +234,12 @@ function App() {
                 
               </>
             )}
-            {selectedMenuItem === 4 && (
+            {selectedMenuItem === 6 && (
               <>
                 <MapComponent /> {/* Render the MapComponent */}
               </>
             )}
-            {selectedMenuItem === 5 && (
+            {selectedMenuItem === 7 && (
               <>
                 <div style={{ padding: '1rem' }}>
                   

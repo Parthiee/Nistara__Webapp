@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import BasicTable from "../Table/BasicTable";
 import "../../App.css";
 import dbClient from "../../database/db-connectivity";
 import { TableComponent } from '../AG-Tabe/Table';
 
-const EvacuateMainDash = ({ orders }) => {
+const SearchMainDash = ({ orders }) => {
 
   const [data, setData] = useState();
 
@@ -14,7 +13,7 @@ const EvacuateMainDash = ({ orders }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await db.getRequestEvacuationPosts();
+        const response = await db.getRequestSearchPosts();
         setData(response.result); // Ensure that the state is set with the correct data
         console.log(response)
       } catch (error) {
@@ -28,10 +27,10 @@ const EvacuateMainDash = ({ orders }) => {
 
   return (
     <div>
-      <h2>Evacuation Requests</h2>
+      <h2>Search Requests</h2>
       {data ? <TableComponent TableContentAsListOfJSON={data} /> : <p>Loading data...</p>}
     </div>
   );
 };
 
-export default EvacuateMainDash;
+export default SearchMainDash;
