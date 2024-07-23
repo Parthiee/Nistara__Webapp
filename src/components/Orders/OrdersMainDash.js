@@ -5,9 +5,9 @@ import dbClient from "../../database/db-connectivity";
 import { TableComponent } from '../AG-Tabe/Table';
 import MapComponent from "../Maps/MapComponent";
 
-const OrdersMainDash = ({ orders }) => {
+const OrdersMainDash = () => {
 
-  const [ordersData, setOrdersData] = useState(orders);
+
   const [data, setData] = useState();
 
   // Function to handle status change

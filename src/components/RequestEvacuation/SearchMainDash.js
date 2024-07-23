@@ -3,7 +3,7 @@ import "../../App.css";
 import dbClient from "../../database/db-connectivity";
 import { TableComponent } from '../AG-Tabe/Table';
 
-const SearchMainDash = ({ orders }) => {
+const SearchMainDash = () => {
 
   const [data, setData] = useState();
 

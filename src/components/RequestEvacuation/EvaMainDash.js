@@ -4,7 +4,7 @@ import "../../App.css";
 import dbClient from "../../database/db-connectivity";
 import { TableComponent } from '../AG-Tabe/Table';
 
-const EvacuateMainDash = ({ orders }) => {
+const EvacuateMainDash = () => {
 
   const [data, setData] = useState();
 

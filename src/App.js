@@ -184,19 +184,19 @@ function App() {
             )}
             {selectedMenuItem === 1 && (
               <>
-                <OrdersMainDash orders={orders} />
+                <OrdersMainDash />
                 {/* <OrdersRightSide orders={orders} /> */}
               </>
             )}
             {selectedMenuItem === 2 && (
               <>
-                <EvacuateMainDash orders={orders} />
+                <EvacuateMainDash />
                 {/* <OrdersRightSide orders={orders} /> */}
               </>
             )}
                   {selectedMenuItem === 3 && (
               <>
-               <SearchMainDash orders={orders} />
+               <SearchMainDash/>
                 {/* <OrdersRightSide orders={orders} /> */}
               </>
             )}

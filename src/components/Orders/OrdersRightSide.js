@@ -1,9 +1,8 @@
 import React from "react";
 import BasicTable from "../Table/BasicTable";
 
-const OrdersRightSide = ({ orders }) => {
-  // Filter orders based on status: Pending
-  const pendingOrders = orders.filter((order) => order.status === "Pending");
+const OrdersRightSide = () => {
+
 
   return (
     <div>
