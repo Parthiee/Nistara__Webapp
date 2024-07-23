@@ -47,7 +47,7 @@ export default class dbClient {
         Item: request.item,
         Quantity: request.quantity,
         // postid: request.postid,
-        Geolocation: request.geolocation,
+        geolocation: request.geolocation,
         translatedtextcontent: request.translatedtextcontent,
         // timestamp: request.timestamp,
         postclass: request.postclass,
