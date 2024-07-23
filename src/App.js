@@ -18,6 +18,8 @@ import FundTransactionsTable from './components/Analytics/FundTransactionsTable'
 import MapComponent from './components/Maps/MapComponent'; // Import the new MapComponent
 import { CurrentStock,resourcesData } from './Data/Data';
 import SearchMainDash from './components/RequestEvacuation/SearchMainDash';
+import EvaRightside from './components/RequestEvacuation/EvaRightside';
+import SearchRightSide from './components/RequestEvacuation/SearchRightSide';
 const earlyWarningData = [
   { 
     id: 1, 
@@ -185,18 +187,20 @@ function App() {
             {selectedMenuItem === 1 && (
               <>
                 <OrdersMainDash />
-                {/* <OrdersRightSide orders={orders} /> */}
+                <OrdersRightSide orders={orders} />
               </>
             )}
             {selectedMenuItem === 2 && (
               <>
                 <EvacuateMainDash />
+                <EvaRightside />
                 {/* <OrdersRightSide orders={orders} /> */}
               </>
             )}
                   {selectedMenuItem === 3 && (
               <>
                <SearchMainDash/>
+               <SearchRightSide />
                 {/* <OrdersRightSide orders={orders} /> */}
               </>
             )}

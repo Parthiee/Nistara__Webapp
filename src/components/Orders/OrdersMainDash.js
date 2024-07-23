@@ -28,7 +28,7 @@ const OrdersMainDash = () => {
   // );
 
   // Filter orders where status is "Approved"
-  // const approvedOrders = ordersData.filter((order) => order.status === "Approved");
+  // const approvedOrdersrequest = ordersData.filter((order) => order.status === "Approved");
   const db = new dbClient();
 
   useEffect(() => {
@@ -51,8 +51,7 @@ const OrdersMainDash = () => {
       <h2>Resource Requests</h2>
       {data ? <TableComponent TableContentAsListOfJSON={data} /> : <p>Loading data...</p>}
     
-
-
+    
     </div>
   );
 };

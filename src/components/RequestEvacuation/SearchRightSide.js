@@ -3,7 +3,7 @@ import BasicTable from "../Table/BasicTable";
 import dbClient from "../../database/db-connectivity";
 import MapComponent from "../Maps/MapComponent";
 
-const OrdersRightSide = () => {
+const SearchRightSide = () => {
 
 
   const [data, setData] = useState();
@@ -14,7 +14,7 @@ const OrdersRightSide = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await db.getRequestPosts();
+        const response = await db.getRequestSearchPosts();
         setData(response.result); // Ensure that the state is set with the correct data
         console.log(response)
       } catch (error) {
@@ -35,4 +35,4 @@ const OrdersRightSide = () => {
   );
 };
 
-export default OrdersRightSide;
+export default SearchRightSide;

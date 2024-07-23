@@ -42,10 +42,10 @@ export default class dbClient {
       const  data  =  response.data.result;
 
       const requests = data.map((request) => ({
-        RequestID: request.id,
-        ITEM_TYPE: request.umbrellatype,
-        Item: request.item,
-        Quantity: request.quantity,
+        id: request.id,
+        umbrellatype: request.umbrellatype,
+        item: request.item,
+        quantity: request.quantity,
         // postid: request.postid,
         geolocation: request.geolocation,
         translatedtextcontent: request.translatedtextcontent,
