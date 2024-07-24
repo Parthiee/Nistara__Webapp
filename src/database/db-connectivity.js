@@ -55,7 +55,7 @@ export default class dbClient {
         // username: request.username,
         // profilephoto: request.profilephoto,
         // matcherid: request.matcherid,
-        // ismatched: request.ismatched,
+        ismatched: request.ismatched,
       }));
       return { message: 'Request Posts Fetch Successful', result: requests };
     } catch (e) {

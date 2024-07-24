@@ -11,7 +11,9 @@ import user from '../../Data/data.json'; // Ensure this path is correct
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
 export const TableComponent = ({ TableContentAsListOfJSON }) => {
-    const [rowData, setRowData] = useState([]);
+    const [unmatchedData, setUnmatchedData] = useState([]);
+    const [matchedData, setMatchedData] = useState([]);
+    const [reload, setReload] = useState(false)
 
     useEffect(() => {
         if (TableContentAsListOfJSON.length > 0 && user.geolocation) {
@@ -23,9 +25,12 @@ export const TableComponent = ({ TableContentAsListOfJSON }) => {
                 }
                 return item;
             });
-            setRowData(updatedData);
+
+            setUnmatchedData(updatedData.filter(item => !item.ismatched));
+            setMatchedData(updatedData.filter(item => item.ismatched));
         } else {
-            setRowData(TableContentAsListOfJSON);
+            setUnmatchedData(TableContentAsListOfJSON.filter(item => !item.ismatched));
+            setMatchedData(TableContentAsListOfJSON.filter(item => item.ismatched));
         }
     }, [TableContentAsListOfJSON]);
 
@@ -45,8 +50,8 @@ export const TableComponent = ({ TableContentAsListOfJSON }) => {
         return R * c; // Distance in kilometers
     };
 
-    const cols = rowData[0]
-        ? Object.keys(rowData[0]).map(key => ({ field: key }))
+    const cols = unmatchedData[0] || matchedData[0]
+        ? Object.keys(unmatchedData[0] || matchedData[0]).map(key => ({ field: key }))
         : [];
 
     const defaultColDef = {
@@ -56,21 +61,69 @@ export const TableComponent = ({ TableContentAsListOfJSON }) => {
         filter: true
     };
 
+
+    async function approveFunction(data)
+    {
+        const {id, umbrellatype, item, quantity} = data;
+        try
+        {
+            const response = await fetch("http://localhost:8000/approveRequest",{
+                method: 'POST',
+                heads: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id,
+                    umbrellatype: umbrellatype,
+                    item:item,
+                    quantity: quantity
+                })
+            })
+            const data = await response.json();
+            console.log(data)
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
+    }
+
     return (
-        <div className="ag-theme-quartz" style={{ width: '100%', height: '600px' }}>
-            <AgGridReact
-                rowData={rowData}
-                columnDefs={cols}
-                defaultColDef={defaultColDef}
-            />
-        </div>
+        <>
+            <h2>Unmatched Data</h2>
+            <div className="ag-theme-quartz" style={{ width: '100%', height: '300px' }}>
+                <AgGridReact
+                    rowData={unmatchedData}
+                    columnDefs={[...cols,         {
+                        field: 'Action',
+                        cellRenderer: props => {
+                        
+                            return  <button onClick={()=>
+                                {console.log(props.data);
+                                setReload(true);
+                                approveFunction(props.data)
+                                setReload(false)}}>{"Approve"}</button>
+                        }
+                    }]}
+                    defaultColDef={defaultColDef}
+                />
+            </div>
+            <h2>Matched Data</h2>
+            <div className="ag-theme-quartz" style={{ width: '100%', height: '300px' }}>
+                <AgGridReact
+                    rowData={matchedData}
+                    columnDefs={cols}
+                    defaultColDef={defaultColDef}
+                />
+            </div>
+        </>
     );
 };
 
 // Example data
 // const TableContentAsListOfJSON = [
-//     { name: 'Alamelu', geolocation: [12.9716, 77.5946] },
-//     { name: 'Meena', geolocation: [13.0827, 80.2707] }
+//     { name: 'Alamelu', geolocation: [12.9716, 77.5946], ismatched: false },
+//     { name: 'Meena', geolocation: [13.0827, 80.2707], ismatched: true }
 // ];
 
 // Rendering the component
