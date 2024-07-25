@@ -20,6 +20,7 @@ import { CurrentStock,resourcesData } from './Data/Data';
 import SearchMainDash from './components/RequestEvacuation/SearchMainDash';
 import EvaRightside from './components/RequestEvacuation/EvaRightside';
 import SearchRightSide from './components/RequestEvacuation/SearchRightSide';
+import InstancePage from './components/InstancePage.js/InstancePage';
 const earlyWarningData = [
   { 
     id: 1, 
@@ -178,31 +179,36 @@ function App() {
         <Route path="/dashboard" element={
           <div className="AppGlass">
             <Sidebar onMenuClick={handleMenuClick} />
-            {selectedMenuItem === 0 && (
+            {/* {selectedMenuItem === 0 && (
               <>
                 <MainDash />
                 <RightSide />
               </>
-            )}
-            {selectedMenuItem === 1 && (
+            )} */}
+            {selectedMenuItem === 0 && (
               <>
                 <OrdersMainDash />
                 <OrdersRightSide orders={orders} />
               </>
             )}
-            {selectedMenuItem === 2 && (
+            {selectedMenuItem === 1 && (
               <>
                 <EvacuateMainDash />
                 <EvaRightside />
                 {/* <OrdersRightSide orders={orders} /> */}
               </>
             )}
-                  {selectedMenuItem === 3 && (
+                  {selectedMenuItem === 2 && (
               <>
                <SearchMainDash/>
                <SearchRightSide />
                 {/* <OrdersRightSide orders={orders} /> */}
               </>
+            )}
+               {selectedMenuItem === 3 && (
+              <>
+                     <InstancePage />
+                          </>
             )}
             {selectedMenuItem === 4 && (
               <>

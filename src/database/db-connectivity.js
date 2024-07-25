@@ -72,9 +72,9 @@ export default class dbClient {
 
       const requests = data.map((request) => ({
         id: request.id,
-        // umbrellatype: request.umbrellatype,
-        // item: request.item,
-        // quantity: request.quantity,
+        umbrellatype: request.umbrellatype,
+        item: request.item,
+        quantity: request.quantity,
         postid: request.postid,
         geolocation: request.geolocation,
         translatedtextcontent: request.translatedtextcontent,
@@ -83,8 +83,8 @@ export default class dbClient {
         userid: request.userid,
         username: request.username,
         // profilephoto: request.profilephoto,
-        // matcherid: request.matcherid,
-        // ismatched: request.ismatched,
+        matcherid: request.matcherid,
+        ismatched: request.ismatched,
       }));
       return { message: 'Request Evacuate Posts Fetch Successful', result: requests };
     } catch (e) {
@@ -101,9 +101,9 @@ export default class dbClient {
 
       const requests = data.map((request) => ({
         id: request.id,
-        // umbrellatype: request.umbrellatype,
-        // item: request.item,
-        // quantity: request.quantity,
+        umbrellatype: request.umbrellatype,
+        item: request.item,
+        quantity: request.quantity,
         postid: request.postid,
         geolocation: request.geolocation,
         translatedtextcontent: request.translatedtextcontent,
@@ -112,8 +112,8 @@ export default class dbClient {
         userid: request.userid,
         username: request.username,
         // profilephoto: request.profilephoto,
-        // matcherid: request.matcherid,
-        // ismatched: request.ismatched,
+        matcherid: request.matcherid,
+        ismatched: request.ismatched,
       }));
       return { message: 'Request Search Posts Fetch Successful', result: requests };
     } catch (e) {

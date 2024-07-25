@@ -22,11 +22,7 @@ import img6 from "../imgs/warning-img1.jpeg";
 
 // Sidebar Data
 export const SidebarData = [
-  {
-    icon: UilEstate,
-    heading: "Dashboard",
-  },
-  {
+   {
     icon: UilClipboardAlt,
     heading: "Request Items",
   },
@@ -39,17 +35,13 @@ export const SidebarData = [
     heading: "Search Person",
   },
   {
+    icon: UilClipboardAlt,
+    heading: "Services",
+  },
+  {
     icon: UilUsersAlt,
     heading: "Early Warnings",
-  },
-  {
-    icon: UilPackage,
-    heading: 'Products'
-  },
-  {
-    icon: UilChart,
-    heading: 'Analytics'
-  },
+  }
 ];
 
 // Analytics Cards Data

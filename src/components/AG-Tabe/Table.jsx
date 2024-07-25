@@ -10,7 +10,7 @@ import user from '../../Data/data.json'; // Ensure this path is correct
 // Register the required AG Grid modules
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
-export const TableComponent = ({ TableContentAsListOfJSON }) => {
+export const TableComponent = ({ TableContentAsListOfJSON , handlerFunction}) => {
     const [unmatchedData, setUnmatchedData] = useState([]);
     const [matchedData, setMatchedData] = useState([]);
     const [reload, setReload] = useState(false)
@@ -62,31 +62,6 @@ export const TableComponent = ({ TableContentAsListOfJSON }) => {
     };
 
 
-    async function approveFunction(data)
-    {
-        const {id, umbrellatype, item, quantity} = data;
-        try
-        {
-            const response = await fetch("http://localhost:8000/approveRequest",{
-                method: 'POST',
-                heads: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id,
-                    umbrellatype: umbrellatype,
-                    item:item,
-                    quantity: quantity
-                })
-            })
-            const data = await response.json();
-            console.log(data)
-        }
-        catch(e)
-        {
-            console.log(e);
-        }
-    }
 
     return (
         <>
@@ -101,7 +76,8 @@ export const TableComponent = ({ TableContentAsListOfJSON }) => {
                             return  <button onClick={()=>
                                 {console.log(props.data);
                                 setReload(true);
-                                approveFunction(props.data)
+                                handlerFunction(props.data)
+                                //approveFunction(props.data)
                                 setReload(false)}}>{"Approve"}</button>
                         }
                     }]}

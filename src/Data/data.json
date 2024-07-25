@@ -5,6 +5,7 @@
     "password": "hope",
     "phonenumber": "6385137900",
     "servicedrequests": 0,
-    "matcherid": 20
+    "matcherid": 20,
+    "address" : "SAMPLE_ADDRESS"
   }
   

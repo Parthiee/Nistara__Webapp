@@ -5,7 +5,7 @@ import hashlib
 from datetime import datetime 
 from fastapi.middleware.cors import CORSMiddleware
 
-f = open("C:/Users/alamu/Documents/PSG_ITECH/Nistara__Webapp/src/Data/data.json")
+f = open("/home/parthiee/Documents/Nistara__Webapp/src/Data/data.json")
 donorData = json.load(f)
 
 
@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # Load environment variables
-with open('C:/Users/alamu/Documents/PSG_ITECH/Nistara__Webapp/proxy-server/token.json') as f:
+with open('/home/parthiee/Documents/Nistara__Webapp/src/database/token.json') as f:
     env = json.load(f)
 
 ASTRA_BASE_URL = f"https://{env['ASTRA_DB_ID']}-{env['ASTRA_DB_REGION']}.apps.astra.datastax.com"
@@ -334,7 +334,89 @@ async def approverequest(request:Request):
            
         except httpx.HTTPStatusError as e:
             raise HTTPException(status_code=e.response.status_code, detail="Failed updating request table")
-    
+
+
+@app.get("/getInstanceID")
+async def getinstanceid():
+ 
+    HEADERS = {
+    'Content-Type': 'text/plain',
+    'X-Cassandra-Token': env['ASTRA_DB_APPLICATION_TOKEN'],
+    'Access-Control-Allow-Origin': '*'
+    }
+    url  = f"{ASTRA_BASE_URL}/api/rest/v2/cql?keyspace={env['ASTRA_DB_KEYSPACE']}"
+
+
+    query1 = f"SELECT MAX(id) from MAIN.INSTANCES;"
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(url, data=query1, headers=HEADERS)
+            response.raise_for_status()
+           
+            print(response.json())
+            data = response.json().get('data', [])
+            
+            if data:
+                max_id = data[0].get('system.max(id)')
+                return {"message": "Request Posts Fetch Successful", "result": max_id}
+            else:
+                return {"message": "Request Posts Fetch Error"}
+           
+           
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail="Failed updating request table")  
+
+
+@app.post("/updateInstanceID")
+async def approverequest(request: Request):
+    body = await request.body()
+    requestData = json.loads(body)
+
+    classifier_id = requestData['classifier_id']
+    matcher_id = requestData['matcher_id']
+    translator_id = requestData['translator_id']
+    address = requestData['address']
+    name = requestData['name']
+    userid = str(requestData['id'])
+    phone = requestData['phone']
+
+    print(requestData)
+
+    HEADERS = {
+        'Content-Type': 'text/plain',
+        'X-Cassandra-Token': env['ASTRA_DB_APPLICATION_TOKEN'],
+        'Access-Control-Allow-Origin': '*'
+    }
+    url = f"{ASTRA_BASE_URL}/api/rest/v2/cql?keyspace={env['ASTRA_DB_KEYSPACE']}"
+
+    async with httpx.AsyncClient() as client:
+        # Use single quotes for string values in CQL queries
+        query1 = f"INSERT INTO main.instances (id, address, name, phonenumber, type, userid) VALUES ({classifier_id}, '{address}', '{name}', '{phone}', 'Classifier', '{userid}');"
+        try:
+            response = await client.post(url, data=query1, headers=HEADERS)
+            print(response.json())
+            response.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail="Failed updating Instance C-ID table")
+
+        query2 = f"INSERT INTO main.instances (id, address, name, phonenumber, type, userid) VALUES ({matcher_id}, '{address}', '{name}', '{phone}', 'Matcher', '{userid}');"
+        try:
+            response = await client.post(url, data=query2, headers=HEADERS)
+            print(response.json())
+            response.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail="Failed updating Instance M-ID table")
+
+        query3 = f"INSERT INTO main.instances (id, address, name, phonenumber, type, userid) VALUES ({translator_id}, '{address}', '{name}', '{phone}', 'Translator', '{userid}');"
+        try:
+            response = await client.post(url, data=query3, headers=HEADERS)
+            print(response.json())
+            response.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail="Failed updating INSTANCE T-ID table")
+
+    return {"message": "Instances updated successfully"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

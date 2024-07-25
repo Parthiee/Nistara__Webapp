@@ -27,11 +27,38 @@ const OrdersMainDash = () => {
    // console.log(data)
   }, []);
 
+  async function approveFunction(data)
+  {
+      const {id, umbrellatype, item, quantity} = data;
+      try
+      {
+          const response = await fetch("http://localhost:8000/approveRequest",{
+              method: 'POST',
+              heads: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  id: id,
+                  umbrellatype: umbrellatype,
+                  item:item,
+                  quantity: quantity
+              })
+          })
+          const data = await response.json();
+          console.log(data)
+      }
+      catch(e)
+      {
+          console.log(e);
+      }
+  }
+
+
   return (
   
        <div style={{ height: '600px', overflowY: 'auto' }}>
       <h2>Resource Requests</h2>
-      {data ? <TableComponent TableContentAsListOfJSON={data} /> : <p>Loading data...</p>}
+      {data ? <TableComponent TableContentAsListOfJSON={data} handlerFunction={approveFunction} /> : <p>Loading data...</p>}
     
       </div>
   
