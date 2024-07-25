@@ -27,7 +27,7 @@ const AdminLogin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Replace with actual authentication logic
-    if (form.username === 'ngo1' && form.password === '123') {
+    if (form.username === '6385137900' && form.password === 'hope') {
       navigate('/dashboard'); // Redirect to dashboard if login is successful
     } else {
       alert('Invalid credentials. Please try again.'); // Replace with appropriate error handling
@@ -44,7 +44,7 @@ const AdminLogin = () => {
         </div>
         <div className="form-container">
           <form onSubmit={handleSubmit} className="login-form">
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="username">Phone Number:</label>
             <input type="text" name="username" value={form.username} onChange={handleChange} required />
             
             <label htmlFor="password">Password:</label>

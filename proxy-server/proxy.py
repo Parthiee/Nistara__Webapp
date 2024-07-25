@@ -3,15 +3,22 @@ import httpx
 import json
 import hashlib
 from datetime import datetime 
+from fastapi.middleware.cors import CORSMiddleware
 
-f = open("../src/Data/data.json")
+f = open("C:/Users/alamu/Documents/PSG_ITECH/Nistara__Webapp/src/Data/data.json")
 donorData = json.load(f)
 
 
 app = FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Load environment variables
-with open('./token.json') as f:
+with open('C:/Users/alamu/Documents/PSG_ITECH/Nistara__Webapp/proxy-server/token.json') as f:
     env = json.load(f)
 
 ASTRA_BASE_URL = f"https://{env['ASTRA_DB_ID']}-{env['ASTRA_DB_REGION']}.apps.astra.datastax.com"
@@ -295,6 +302,38 @@ async def approverequest(request:Request):
             response.raise_for_status()
         except httpx.HTTPStatusError as e:
             raise HTTPException(status_code=e.response.status_code, detail="Failed updating matches table")
+    
+
+
+@app.post("/approveEvacuationSearchRequest")
+async def approverequest(request:Request):
+    body = await request.body()
+    requestData= json.loads(body)
+
+    requestId = requestData['id']
+
+    matcherid = int(donorData["matcherid"])
+    donorGeoloc = tuple(donorData["geolocation"])
+    print(donorGeoloc)
+    donorName=donorData["name"]
+    donorId=donorData["id"]
+    HEADERS = {
+    'Content-Type': 'text/plain',
+    'X-Cassandra-Token': env['ASTRA_DB_APPLICATION_TOKEN'],
+    'Access-Control-Allow-Origin': '*'
+    }
+    url  = f"{ASTRA_BASE_URL}/api/rest/v2/cql?keyspace={env['ASTRA_DB_KEYSPACE']}"
+
+
+    query1 = f"UPDATE MAIN.REQUESTS SET matcherid = {matcherid}, ismatched=True where id='{requestId}';"
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(url, data=query1, headers=HEADERS)
+            print(response.json())
+            response.raise_for_status()
+           
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail="Failed updating request table")
     
 if __name__ == "__main__":
     import uvicorn
